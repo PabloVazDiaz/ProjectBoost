@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
-    Rigidbody rigidbody;
+    private Rigidbody rigidbody;
     private AudioSource audioSource;
 
     public float pushForce = 1;
@@ -21,31 +21,55 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessInput();
+        Thrust();
+        Rotate();
     }
 
-    private void ProcessInput()
+    private void Thrust()
     {
         if (Input.GetKey(KeyCode.Space))
         {
             rigidbody.AddRelativeForce(Vector3.up * pushForce);
             if (!audioSource.isPlaying)
             {
-            audioSource.Play();
+                audioSource.Play();
             }
         }
         else
         {
             audioSource.Stop();
         }
-         
+    }
+
+    private void Rotate()
+    {
+        rigidbody.freezeRotation = true; // Take control of rotation
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime) ;
+            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.D))
         {
             transform.Rotate(-Vector3.forward * rotationSpeed * Time.deltaTime);
         }
+        rigidbody.freezeRotation = false; //Resume physics
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Friendly":
+                {
+                    print("boop");
+                    break;
+                }
+            default:
+                {
+                    print("Dead");
+                    break;
+                }
+        }
+    }
+
 }
