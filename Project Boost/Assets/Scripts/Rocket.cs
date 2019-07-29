@@ -2,18 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
     private Rigidbody rigidbody;
     private AudioSource audioSource;
+    private State state;
 
     public float pushForce = 1;
     public float rotationSpeed = 1;
 
+    enum State
+    {
+        Dying,
+        Trancending,
+        Alive
+    };
+
     // Start is called before the first frame update
     void Start()
     {
+        state = State.Alive;
         rigidbody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -21,13 +31,18 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Thrust();
-        Rotate();
+        
+        if (state == State.Alive)
+        {
+            Thrust();
+            Rotate();
+        }
+
     }
 
     private void Thrust()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && state == State.Alive)
         {
             rigidbody.AddRelativeForce(Vector3.up * pushForce);
             if (!audioSource.isPlaying)
@@ -57,6 +72,9 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        
+        if (state != State.Alive) return;
+
         switch (collision.gameObject.tag)
         {
             case "Friendly":
@@ -64,12 +82,38 @@ public class Rocket : MonoBehaviour
                     print("boop");
                     break;
                 }
+            case "Finish":
+                {
+                    
+                    if (SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCount - 1)
+                    {
+                        state = State.Trancending;
+                        Invoke("NextLevel", 1f);
+                    }
+                    print("boop");
+                    break;
+                }
             default:
                 {
-                    print("Dead");
+                    state = State.Dying;
+                    Invoke("Die", 1f);
                     break;
                 }
         }
     }
+
+    private void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        state = State.Alive;
+    }
+
+
+    private void Die()
+    {
+        SceneManager.LoadScene(0);
+        state = State.Alive;
+    }
+
 
 }

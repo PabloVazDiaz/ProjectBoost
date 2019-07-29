@@ -340,8 +340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0323fe62857494eb9b3109d625f282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 20
-  rotationSpeed: 150
+  pushForce: 40
+  rotationSpeed: 250
 --- !u!82 &8798581656551996263
 AudioSource:
   m_ObjectHideFlags: 0
