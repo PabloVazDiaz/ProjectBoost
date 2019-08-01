@@ -9,6 +9,16 @@ public class Rocket : MonoBehaviour
     private Rigidbody rigidbody;
     private AudioSource audioSource;
     private State state;
+    private bool CollisionsEnabled= true;
+
+    [SerializeField] AudioClip MainEngine;
+    [SerializeField] AudioClip Dead;
+    [SerializeField] AudioClip Success;
+    [SerializeField] int levelLoadDelay;
+
+    [SerializeField] ParticleSystem MainEngineParticles;
+    [SerializeField] ParticleSystem SuccessParticles;
+    [SerializeField] ParticleSystem DeathParticles;
 
     public float pushForce = 1;
     public float rotationSpeed = 1;
@@ -26,6 +36,7 @@ public class Rocket : MonoBehaviour
         state = State.Alive;
         rigidbody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -37,22 +48,40 @@ public class Rocket : MonoBehaviour
             Thrust();
             Rotate();
         }
+        if (Debug.isDebugBuild)
+        {
+            ListenDebugKeys();
+        }
 
+    }
+
+    private void ListenDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            NextLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CollisionsEnabled = !CollisionsEnabled;
+        }
     }
 
     private void Thrust()
     {
-        if (Input.GetKey(KeyCode.Space) && state == State.Alive)
+        if (Input.GetKey(KeyCode.Space))
         {
-            rigidbody.AddRelativeForce(Vector3.up * pushForce);
+            rigidbody.AddRelativeForce(Vector3.up * pushForce * Time.deltaTime);
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(MainEngine);
             }
+            MainEngineParticles.Play();
         }
         else
         {
             audioSource.Stop();
+            MainEngineParticles.Stop();
         }
     }
 
@@ -73,7 +102,7 @@ public class Rocket : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         
-        if (state != State.Alive) return;
+        if (state != State.Alive || !CollisionsEnabled) return;
 
         switch (collision.gameObject.tag)
         {
@@ -85,18 +114,23 @@ public class Rocket : MonoBehaviour
             case "Finish":
                 {
                     
+                        audioSource.Stop();
+                        audioSource.PlayOneShot(Success);
+                        state = State.Trancending;
+                        SuccessParticles.Play();
                     if (SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCount - 1)
                     {
-                        state = State.Trancending;
-                        Invoke("NextLevel", 1f);
+                        Invoke("NextLevel", levelLoadDelay);
                     }
-                    print("boop");
                     break;
                 }
             default:
                 {
+                    audioSource.Stop();
+                    audioSource.PlayOneShot(Dead);
                     state = State.Dying;
-                    Invoke("Die", 1f);
+                    DeathParticles.Play();
+                    Invoke("Die", levelLoadDelay);
                     break;
                 }
         }
@@ -111,7 +145,7 @@ public class Rocket : MonoBehaviour
 
     private void Die()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         state = State.Alive;
     }
 
