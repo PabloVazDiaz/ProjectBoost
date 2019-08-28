@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: -16, z: 0}
-  Period: 3
+  Period: 6
   MovementFactor: 0
 --- !u!1001 &270963318
 PrefabInstance:
@@ -299,7 +299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 355148429}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: -8, z: 0}
+  m_LocalPosition: {x: 12, y: -8, z: 0}
   m_LocalScale: {x: 1.15, y: 1, z: 1}
   m_Children:
   - {fileID: 1880170890}
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 16, z: 0}
-  Period: 3
+  Period: 4
   MovementFactor: 0
 --- !u!1001 &439361588
 PrefabInstance:
@@ -397,7 +397,7 @@ PrefabInstance:
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.71
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
@@ -591,7 +591,7 @@ PrefabInstance:
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.71
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
@@ -706,7 +706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 16, z: 0}
-  Period: 3
+  Period: 4
   MovementFactor: 0
 --- !u!4 &1270760474
 Transform:
@@ -716,7 +716,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1270760472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: -8, z: 0}
+  m_LocalPosition: {x: -12, y: -8, z: 0}
   m_LocalScale: {x: 1.15, y: 1, z: 1}
   m_Children:
   - {fileID: 874183398}
@@ -997,7 +997,7 @@ PrefabInstance:
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.71
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
@@ -1091,7 +1091,7 @@ PrefabInstance:
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.71
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
@@ -1279,7 +1279,7 @@ PrefabInstance:
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.71
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
@@ -1462,7 +1462,7 @@ PrefabInstance:
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.71
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4712203804577260052, guid: 7ab660e0752ca704d806eb2e62d58806,
         type: 3}
@@ -1880,6 +1880,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Directional Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 7788717454027594763, guid: 20779451956d3f84eb9a79e1099a9a49,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7788717454027594761, guid: 20779451956d3f84eb9a79e1099a9a49,
         type: 3}

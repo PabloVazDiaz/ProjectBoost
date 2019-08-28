@@ -26,7 +26,7 @@ public class Rocket : MonoBehaviour
     enum State
     {
         Dying,
-        Trancending,
+        Transcending,
         Alive
     };
 
@@ -87,15 +87,20 @@ public class Rocket : MonoBehaviour
 
     private void Rotate()
     {
-        rigidbody.freezeRotation = true; // Take control of rotation
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+            RotateManually(rotationSpeed * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(-Vector3.forward * rotationSpeed * Time.deltaTime);
+            RotateManually(-rotationSpeed * Time.deltaTime);
         }
+    }
+
+    private void RotateManually(float rotationThisFrame)
+    {
+        rigidbody.freezeRotation = true; // Take control of rotation
+        transform.Rotate(Vector3.forward * rotationThisFrame);
         rigidbody.freezeRotation = false; //Resume physics
     }
 
@@ -108,20 +113,16 @@ public class Rocket : MonoBehaviour
         {
             case "Friendly":
                 {
-                    print("boop");
                     break;
                 }
             case "Finish":
                 {
+                    audioSource.Stop();
+                    audioSource.PlayOneShot(Success);
+                    state = State.Transcending;
+                    SuccessParticles.Play();
+                    Invoke("NextLevel", levelLoadDelay);
                     
-                        audioSource.Stop();
-                        audioSource.PlayOneShot(Success);
-                        state = State.Trancending;
-                        SuccessParticles.Play();
-                    if (SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCount - 1)
-                    {
-                        Invoke("NextLevel", levelLoadDelay);
-                    }
                     break;
                 }
             default:
@@ -138,7 +139,15 @@ public class Rocket : MonoBehaviour
 
     private void NextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCountInBuildSettings - 1)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
+
         state = State.Alive;
     }
 
